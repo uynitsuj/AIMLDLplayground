@@ -2,7 +2,7 @@
 
 The code in 2DGOptimizer.ipynb reconstructs a grayscale image using a combination of 2D Gaussian functions. The process involves initializing a set of Gaussians over the image, then refining their parameters (e.g., position, spread, orientation) to best match the original image.
 
-## Importing Libraries
+## Libraries
 ```python
 import torch
 import torch.optim as optim
@@ -12,6 +12,9 @@ from PIL import Image
 import imageio
 from IPython.display import Video, display
 ```
+## Result
+<img src="https://raw.githubusercontent.com/uynitsuj/AIMLDLplayground/main/2D%20Gaussian%20Optimization/data/gaussian_reconstruction.gif" width="700" height="700">
+
 
 ## 2D Gaussian Function
 Defines a 2D Gaussian function with parameters for position, spread, intensity, and rotation.
@@ -50,17 +53,3 @@ Uses the Adam optimizer to refine the Gaussians' parameters for better image rec
 optimizer = optim.Adam([params], lr=0.5) 
 scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=100, gamma=0.7)
 ```
-
-## Reconstruction Iteration
-Iterates through the optimization process, updating the Gaussian parameters to minimize the MSE loss. Every few iterations, the current reconstruction and the Gaussian centers are displayed.
-
-```python
-iterations = 250
-display_interval = 50
-all_frames = []
-for iteration in range(iterations):
-```
-
-
-## Results
-![Result](https://raw.githubusercontent.com/uynitsuj/AIMLDLplayground/main/2D%20Gaussian%20Optimization/data/gaussian_reconstruction.gif)
