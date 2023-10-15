@@ -63,4 +63,4 @@ for iteration in range(iterations):
 
 
 ## Results
-![Result](url_to_gif.gif)
+![Result](https://raw.githubusercontent.com/uynitsuj/AIMLDLplayground/main/2D%20Gaussian%20Optimization/data/gaussian_reconstruction.gif)
