@@ -3,7 +3,7 @@ import torch
 import numpy as np
 from matplotlib import pyplot as plt
 
-class FoveatedImage:
+class FoveateImage:
     def __init__(
         self,
         # device: torch.device,
@@ -27,7 +27,6 @@ class FoveatedImage:
         self.image = image
 
         # self.greyscale()
-
 
         w, h, c = image.shape
         self.width = w
@@ -55,7 +54,6 @@ class FoveatedImage:
         rad = torch.maximum(torch.sqrt(x_centered**2 + y_centered**2) - focus_cone, torch.zeros_like(x_centered))
         return rad
     
-    # Define the 2D Gaussian function with a color intensity parameter and rotation angle
     def gaussian_2d(self):
         x = torch.linspace(0, self.width - 1, self.width)
         y = torch.linspace(0, self.height - 1, self.height)
@@ -70,7 +68,6 @@ class FoveatedImage:
 
         return 1-torch.tanh(self.linear_dist_center(focus_cone)/self.width)
 
-    # Sample pixels 
     def sample_mask(self, mode = 'conic', pixel_ratio = 0.2, focus_cone = None):
         print("Original Size: " + str(self.width*self.height * 3 * 10e-6) + " MB")
 
@@ -112,7 +109,6 @@ class FoveatedImage:
             
             rng = torch.maximum(rng+0.3, rad)
             
-
             sample_mask_idx = torch.topk((rng * conic).reshape(-1), int(pixel_ratio * self.width * self.height))
             sample_mask = torch.zeros_like(rng.reshape(-1))
 
