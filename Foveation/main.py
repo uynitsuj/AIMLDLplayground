@@ -1,11 +1,13 @@
 from foveate_image import *
 from matplotlib import pyplot as plt
 from PIL import Image
+import time
 # import numpy
 
 def main():
+    
     # img = open('DSC_1625.jpg')
-    img = Image.open('that_dog_in_me.jpg')
+    img = Image.open('dog_in_me.jpeg')
 
     w, h = img.size
     print("Original Image Size", w, h)
@@ -19,13 +21,21 @@ def main():
     # plt.imshow(img)
     # plt.show()
 
-    fimg = FoveateImage()
-    foveatedimg = fimg.foveate(img)
-    #Number of non-zero pixels in the foveated image
-    # import pdb; pdb.set_trace()
-    print("Foveated Pixel Count", np.count_nonzero(foveatedimg[:,:,0]))
+    fimg = FoveateImage(w, h)
+    start = time.time()
+    foveatedimg, idxs = fimg.foveate(img)
+    elapsed = (time.time() - start)
+    print(f"Elapsed time: {elapsed}(s)")
+    print(f"Frequency: {1/elapsed}(fps)")
+    print("Foveated Pixel Count", foveatedimg.shape)
 
-    plt.imshow(foveatedimg)
+    recon = torch.zeros((h,w,3), dtype=foveatedimg.dtype)
+    # import pdb; pdb.set_trace()
+    recon.view(-1, 3)[idxs] = foveatedimg[range(len(foveatedimg))]
+
+    print(f"Compression: {len(idxs)/(w*h)*100}%")
+
+    plt.imshow(recon)
     plt.show()
 
 
